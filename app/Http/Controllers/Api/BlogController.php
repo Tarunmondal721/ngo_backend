@@ -40,7 +40,7 @@ class BlogController extends Controller
             'author'       => 'required|string|max:255',
             'date'         => 'required|date',
             'read_time'    => 'nullable|string|max:255',
-            'category_id'  => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
             'content'      => 'required|string',
             'featured'     => 'boolean',
             'image'        => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',

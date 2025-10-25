@@ -25,7 +25,7 @@ class GalleryController extends Controller
         $validated = FacadesValidator::make($request->all(), [
             // 'src' => 'required|string',
             'alt' => 'required|string|max:255',
-            'category_id' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
             'title' => 'required|string|max:255',
             'description' => 'required|string',
         ]);

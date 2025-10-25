@@ -31,7 +31,7 @@ class Eventcontroller extends Controller
             'date'        => 'required|date',
             'time'        => 'nullable|string|max:255',
             'location'    => 'required|string|max:255',
-            'category_id' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
             'description' => 'required|string',
             'attendees'   => 'nullable|string|max:255',
             'impact'      => 'nullable|string|max:255',
