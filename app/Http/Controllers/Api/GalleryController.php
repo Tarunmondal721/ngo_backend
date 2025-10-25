@@ -84,6 +84,9 @@ class GalleryController extends Controller
         }
 
         if ($request->hasFile('src')) {
+            if($gallery->src){
+                Storage::disk('public')->delete($gallery->src);
+            }
             $file = $request->file('src');
             $filename = time() . "." . $file->getClientOriginalExtension();
             $path = $file->storeAs('gallery', $filename, 'public');

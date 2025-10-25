@@ -19,6 +19,8 @@ Route::prefix('/user')->group(function(){
     Route::get('/galleries',[GalleryController::class,'index']);
     Route::get('/categories',[CategoryController::class,'index']);
     Route::get('/events',[Eventcontroller::class,'index']);
+    Route::get('/blogs',[BlogController::class,'index']);
+    Route::get('/blogs/{slug}',[BlogController::class, 'findSlug']);
 });
 
 Route::middleware('auth:sanctum')->group(function () {
