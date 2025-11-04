@@ -3,22 +3,23 @@ name: Auto Deploy to InfinityFree
 on:
   push:
     branches:
-      - master   # or 'master' if your repo uses that
+      - master
 
 jobs:
   ftp-deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Deploy via FTP
+      - name: Deploy Laravel Project to InfinityFree
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ftpupload.net
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./
           server-dir: /htdocs/
           protocol: ftps
           port: 21
-
