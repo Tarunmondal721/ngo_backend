@@ -54,6 +54,7 @@ class AuthController extends Controller
             'email' => 'required|string|email',
             'password' => 'required|string'
         ]);
+
         if ($validator->fails()) {
             return response()->json([
                 'status' => 'error',
@@ -63,6 +64,12 @@ class AuthController extends Controller
 
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json(['message' => 'Invalid credentials'], 401);
+        }
+
+        $user = Auth::user();
+
+        if($user->user_type === 'user') {
+            return response()->json(['message' => 'Access denied. Admin accounts only.'], 403);
         }
 
         $token = $request->user()->createToken('api_token')->plainTextToken;
