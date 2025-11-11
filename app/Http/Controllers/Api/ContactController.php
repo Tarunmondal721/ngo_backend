@@ -119,8 +119,7 @@ class ContactController extends Controller
     public function sendOtp(Request $request)
     {
         $validator = Validator::make($request->all(), [
-           'email' => 'required|email',
-            'event_name' => 'required|string',
+            'email' => 'required|email',
         ]);
 
         if ($validator->fails()) {
@@ -132,7 +131,7 @@ class ContactController extends Controller
 
         $otp = rand(100000, 999999);
         $email = $request->email;
-        $eventName = $request->event_name ?? 'Event Registration';
+        $eventName = 'One-Time Password Verification';
 
         // Store OTP (5 min)
         Cache::put("otp_email_{$email}", $otp, now()->addMinutes(5));
@@ -174,7 +173,7 @@ class ContactController extends Controller
         }
 
         // Save to DB
-       $registration = Contact::create([
+        $registration = Contact::create([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
@@ -198,5 +197,16 @@ class ContactController extends Controller
         return response()->json([
             'message' => 'Registered successfully! Confirmation email sent.'
         ]);
+    }
+
+    public function verify(Request $request)
+    {
+        $request->validate(['email' => 'required|email', 'otp' => 'required|digits:6']);
+        $key = 'otp_email_' . $request->email;
+        if (Cache::get($key) == $request->otp) {
+            Cache::forget($key);
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false], 400);
     }
 }

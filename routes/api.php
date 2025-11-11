@@ -11,21 +11,24 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\Eventcontroller;
 use App\Http\Controllers\Api\GalleryController;
-
+use App\Http\Controllers\Api\DonationController;
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
-Route::prefix('/user')->group(function(){
-    Route::get('/galleries',[GalleryController::class,'index']);
-    Route::get('/categories',[CategoryController::class,'index']);
-    Route::get('/events',[Eventcontroller::class,'index']);
-    Route::get('/blogs',[BlogController::class,'index']);
-    Route::get('/blogs/{slug}',[BlogController::class, 'findSlug']);
-    Route::apiResource('contacts',ContactController::class);
+Route::prefix('/user')->group(function () {
+    Route::get('/galleries', [GalleryController::class, 'index']);
+    Route::get('/categories', [CategoryController::class, 'index']);
+    Route::get('/events', [Eventcontroller::class, 'index']);
+    Route::get('/blogs', [BlogController::class, 'index']);
+    Route::get('/blogs/{slug}', [BlogController::class, 'findSlug']);
+    Route::apiResource('contacts', ContactController::class);
     // Route::post('/event/register',[ContactController::class, 'eventRegister']);
     Route::post('/send-otp', [ContactController::class, 'sendOtp']);
     Route::post('/verify-otp', [ContactController::class, 'verifyOtp']);
+    Route::post('/create-order', [DonationController::class, 'createOrder']);
+    Route::post('/verify-payment', [DonationController::class, 'verifyPayment']);
+    Route::post('/verifyotp', [ContactController::class, 'verify']);
 });
 
 
