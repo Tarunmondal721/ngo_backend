@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\api\BlogController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\Eventcontroller;
 use App\Http\Controllers\Api\GalleryController;
 
@@ -21,7 +22,12 @@ Route::prefix('/user')->group(function(){
     Route::get('/events',[Eventcontroller::class,'index']);
     Route::get('/blogs',[BlogController::class,'index']);
     Route::get('/blogs/{slug}',[BlogController::class, 'findSlug']);
+    Route::apiResource('contacts',ContactController::class);
+    // Route::post('/event/register',[ContactController::class, 'eventRegister']);
+    Route::post('/send-otp', [ContactController::class, 'sendOtp']);
+    Route::post('/verify-otp', [ContactController::class, 'verifyOtp']);
 });
+
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);

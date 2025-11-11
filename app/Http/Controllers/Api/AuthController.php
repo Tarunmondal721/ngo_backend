@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OtpMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class AuthController extends Controller
@@ -68,7 +71,7 @@ class AuthController extends Controller
 
         $user = Auth::user();
 
-        if($user->user_type === 'user') {
+        if ($user->user_type === 'user') {
             return response()->json(['message' => 'Access denied. Admin accounts only.'], 403);
         }
 
@@ -102,4 +105,6 @@ class AuthController extends Controller
     {
         return response()->json($request->user());
     }
+
+
 }
